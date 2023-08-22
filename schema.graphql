@@ -1,0 +1,224 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type CategoryConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [CategoryEdge]!
+}
+
+"""A Relay edge containing a `Category` and its cursor."""
+type CategoryEdge {
+  """The item at the end of the edge"""
+  node: CategoryType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type CategoryType implements Node {
+  """The ID of the object"""
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  subCategories(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String): SubCategoryTypeConnection!
+  products(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, description: String, description_Icontains: String, category: ID, category_Name: String): ProductTypeConnection!
+}
+
+type CategoryTypeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [CategoryTypeEdge]!
+}
+
+"""A Relay edge containing a `CategoryType` and its cursor."""
+type CategoryTypeEdge {
+  """The item at the end of the edge"""
+  node: CategoryType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type CreateCategory {
+  category: CategoryType
+}
+
+input CreateCategoryModel {
+  name: String!
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type Mutation {
+  """Create Category"""
+  createCategory(categoryData: CreateCategoryModel): CreateCategory
+
+  """Update Category"""
+  updateCategory(categoryData: UpdateCategoryModel): UpdateCategory
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object"""
+  id: ID!
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type ProductConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ProductEdge]!
+}
+
+"""A Relay edge containing a `Product` and its cursor."""
+type ProductEdge {
+  """The item at the end of the edge"""
+  node: ProductType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type ProductImageType {
+  id: ID!
+  image: String!
+}
+
+type ProductType implements Node {
+  """The ID of the object"""
+  id: ID!
+  name: String!
+  category: CategoryType!
+  subCategory: SubCategoryType!
+  description: String!
+  price: Int!
+  amountInStock: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  images: [ProductImageType!]!
+}
+
+type ProductTypeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ProductTypeEdge]!
+}
+
+"""A Relay edge containing a `ProductType` and its cursor."""
+type ProductTypeEdge {
+  """The item at the end of the edge"""
+  node: ProductType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Query {
+  hello: String
+  category(
+    """The ID of the object"""
+    id: ID!
+  ): CategoryType
+  allCategories(before: String, after: String, first: Int, last: Int): CategoryConnection
+  searchCategories(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String): CategoryTypeConnection
+  subCategory(
+    """The ID of the object"""
+    id: ID!
+  ): SubCategoryType
+  allSubCategories(before: String, after: String, first: Int, last: Int): SubCategoryConnection
+  searchSubCategories(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String): SubCategoryTypeConnection
+  product(
+    """The ID of the object"""
+    id: ID!
+  ): ProductType
+  allProducts(before: String, after: String, first: Int, last: Int): ProductConnection
+  searchProducts(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, description: String, description_Icontains: String, category: ID, category_Name: String): ProductTypeConnection
+}
+
+type SubCategoryConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SubCategoryEdge]!
+}
+
+"""A Relay edge containing a `SubCategory` and its cursor."""
+type SubCategoryEdge {
+  """The item at the end of the edge"""
+  node: SubCategoryType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type SubCategoryType implements Node {
+  """The ID of the object"""
+  id: ID!
+  name: String!
+  category: CategoryType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  products(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, description: String, description_Icontains: String, category: ID, category_Name: String): ProductTypeConnection!
+}
+
+type SubCategoryTypeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SubCategoryTypeEdge]!
+}
+
+"""A Relay edge containing a `SubCategoryType` and its cursor."""
+type SubCategoryTypeEdge {
+  """The item at the end of the edge"""
+  node: SubCategoryType
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type UpdateCategory {
+  category: CategoryType
+}
+
+input UpdateCategoryModel {
+  name: String!
+  id: ID
+}
+
