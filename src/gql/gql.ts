@@ -13,7 +13,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query FirstCategories($first: Int!) {\n    allCategories(first: $first) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n": types.FirstCategoriesDocument,
+    "\n  fragment CategoryFragment on CategoryType {\n    id\n    name\n    subCategories {\n      edges {\n        node {\n          ...SubCategoryFragment\n        }\n      }\n    }\n  }\n": types.CategoryFragmentFragmentDoc,
+    "\n  query allCategoriesWithSubcategories {\n    allCategories {\n      edges {\n        node {\n          ...CategoryFragment\n        }\n      }\n    }\n  }\n": types.AllCategoriesWithSubcategoriesDocument,
+    "\n  fragment SubCategoryFragment on SubCategoryType {\n    id\n    name\n  }\n": types.SubCategoryFragmentFragmentDoc,
 };
 
 /**
@@ -33,7 +35,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query FirstCategories($first: Int!) {\n    allCategories(first: $first) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query FirstCategories($first: Int!) {\n    allCategories(first: $first) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      edges {\n        cursor\n        node {\n          id\n          name\n          createdAt\n          updatedAt\n        }\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  fragment CategoryFragment on CategoryType {\n    id\n    name\n    subCategories {\n      edges {\n        node {\n          ...SubCategoryFragment\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CategoryFragment on CategoryType {\n    id\n    name\n    subCategories {\n      edges {\n        node {\n          ...SubCategoryFragment\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query allCategoriesWithSubcategories {\n    allCategories {\n      edges {\n        node {\n          ...CategoryFragment\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query allCategoriesWithSubcategories {\n    allCategories {\n      edges {\n        node {\n          ...CategoryFragment\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment SubCategoryFragment on SubCategoryType {\n    id\n    name\n  }\n"): (typeof documents)["\n  fragment SubCategoryFragment on SubCategoryType {\n    id\n    name\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
