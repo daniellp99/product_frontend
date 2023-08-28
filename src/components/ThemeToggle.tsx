@@ -18,7 +18,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="h-8 w-8">
+        <Button variant="outline" size="icon" className="h-8 w-8 bg-secondary">
           <Icon
             name="sun"
             className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
